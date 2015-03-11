@@ -1,0 +1,9 @@
+---
+- name: Download RDS CA bundle
+  get_url: url="{{ rds_ca_bundle_url }}"
+           dest=/usr/local/share/ca-certificates/rds-combined-ca-bundle.crt
+  register: rds_ca_bundle_downloaded
+
+- name: Update CA certificates
+  command: "update-ca-certificates"
+  when: rds_ca_bundle_downloaded | changed
